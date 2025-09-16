@@ -1,0 +1,236 @@
+/* Стили для корзины */
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 40px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.cart-items {
+    margin: 20px 0;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.item-info {
+    flex: 1;
+}
+
+    .item-info h3 {
+        margin: 0 0 5px 0;
+    }
+
+.brand {
+    color: #666;
+    margin: 0 0 5px 0;
+}
+
+.price {
+    font-weight: bold;
+    margin: 0;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+    .quantity-controls button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quantity-controls input {
+        width: 50px;
+        text-align: center;
+        margin: 0 5px;
+    }
+
+.item-total {
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+.remove-btn {
+    background-color: #ff4444;
+}
+
+    .remove-btn:hover {
+        background-color: #cc0000;
+    }
+
+.cart-summary {
+    padding: 20px;
+    border-top: 2px solid #eee;
+    text-align: center;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    padding: 12px 24px;
+}
+
+    .checkout-btn:hover {
+        background-color: #218838;
+    }
+
+.back-btn {
+    background-color: #6c757d;
+}
+
+    .back-btn:hover {
+        background-color: #545b62;
+    }
+
+/* Стили для оплаты */
+.payment-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.payment-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.paid-enough {
+    color: #28a745;
+}
+
+.paid-not-enough {
+    color: #dc3545;
+}
+
+.coin-inputs {
+    margin-bottom: 30px;
+}
+
+.coin-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.coin-controls {
+    display: flex;
+    align-items: center;
+}
+
+    .coin-controls button {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .coin-controls input {
+        width: 60px;
+        text-align: center;
+        margin: 0 5px;
+    }
+
+.payment-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.pay-btn {
+    background-color: #28a745;
+    padding: 12px 24px;
+}
+
+    .pay-btn:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+
+.payment-success {
+    text-align: center;
+    padding: 30px;
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    background-color: #f8fff9;
+}
+
+.success-message {
+    font-size: 18px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.change-info {
+    margin: 20px 0;
+}
+
+.change-coins {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.change-coin {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.coin-value {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.back-to-catalog-btn {
+    background-color: #007bff;
+    padding: 12px 24px;
+    margin-top: 20px;
+}
+
+    .back-to-catalog-btn:hover {
+        background-color: #0056b3;
+    }
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+}
