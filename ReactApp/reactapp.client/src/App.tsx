@@ -1,11 +1,12 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import Payment from './components/Payment';
-import RussianTest from './components/RussianTest';
+import BusyPage from './components/BusyPage'; // Добавляем новый компонент
+
 
 const App: React.FC = () => {
     return (
@@ -15,12 +16,13 @@ const App: React.FC = () => {
                     <Route path="/" element={<ProductList />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/payment/:orderId" element={<Payment />} />
+                    <Route path="/busy" element={<BusyPage />} /> {/* Добавляем маршрут */}
                 </Routes>
             </Router>
         </Provider>
         //<div>
         //    <RussianTest />
-        //    {/* ��������� ���������� ������ ���������� */}
+        //    {/* Остальные компоненты вашего приложения */}
         //</div>
     );
 };

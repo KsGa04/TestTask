@@ -2,6 +2,8 @@
 using ReactApp.Server.Data;
 using ReactApp.Server.Models;
 using ReactApp.Server.Repositories.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ReactApp.Server.Repositories.Implementations
 {
@@ -48,6 +50,21 @@ namespace ReactApp.Server.Repositories.Implementations
             {
                 product.Quantity = quantity;
                 await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task BulkInsertProducts(List<Product> products)
+        {
+            try
+            {
+                await _context.Products.AddRangeAsync(products);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Логируем ошибку для отладки
+                Console.WriteLine($"Ошибка при сохранении: {ex.InnerException?.Message}");
+                throw;
             }
         }
     }

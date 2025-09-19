@@ -1,4 +1,4 @@
-export interface Brand {
+﻿export interface Brand {
     id: number;
     name: string;
 }
@@ -50,4 +50,23 @@ export interface PaymentState {
     error: string | null;
     change: Record<number, number> | null;
     message: string;
+}
+
+export interface ProductsState {
+    items: Product[];
+    brands: string[];
+    filters: {
+        brand: string;
+        maxPrice: number;
+    };
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    importStatus: 'idle' | 'loading' | 'succeeded' | 'failed'; // Добавлено
+    error: string | null;
+    message: string | null; // Добавлено
+}
+
+// Добавьте это если нет
+export interface ImportResponse {
+    message: string;
+    count: number;
 }

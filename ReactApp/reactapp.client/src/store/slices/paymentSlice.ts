@@ -37,8 +37,10 @@ const paymentSlice = createSlice({
         },
         resetPayment: (state) => {
             state.coins = state.coins.map(coin => ({ ...coin, count: 0 }));
+            state.status = 'idle'; 
             state.change = null;
             state.message = '';
+            state.error = null;    
         },
     },
     extraReducers: (builder) => {

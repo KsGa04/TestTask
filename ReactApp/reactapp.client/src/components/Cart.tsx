@@ -2,9 +2,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeFromCart, updateQuantity, clearCart } from '../store/slices/cartSlice';
+import { resetPayment } from '../store/slices/paymentSlice';
 import { apiService } from '../api/api';
 import { RootState, AppDispatch } from '../store/store';
 import { CartItem } from '../types';
+import './Cart.css';
 
 const Cart: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -17,14 +19,6 @@ const Cart: React.FC = () => {
 
     const handleQuantityChange = (id: number, quantity: number) => {
         if (quantity < 1) return;
-
-        // Проверяем, не превышает ли количество доступный запас
-        const product = items.find(item => item.id === id);
-        if (product && quantity > product.quantity) {
-            setError(`Нельзя выбрать больше ${product.quantity} единиц товара "${product.name}"`);
-            return;
-        }
-
         setError(null);
         dispatch(updateQuantity({ id, quantity }));
     };
@@ -33,8 +27,10 @@ const Cart: React.FC = () => {
         setIsCheckingOut(true);
         setError(null);
 
-
         try {
+            // Сбрасываем состояние платежа перед созданием нового заказа
+            dispatch(resetPayment());
+
             const orderItems: Record<number, number> = {};
             items.forEach((item: CartItem) => {
                 orderItems[item.id] = item.quantity;
@@ -50,37 +46,68 @@ const Cart: React.FC = () => {
         }
     };
 
+    // Функция для получения изображения бренда
+    const getBrandImage = (brandName: string): string => {
+        const brandImages: Record<string, string> = {
+            'Coca-Cola': '/coca-cola.png',
+            'Pepsi': '/pepsi.png',
+            'Fanta': '/fanta.png',
+            'Sprite': '/sprite.png',
+            'Dr. Pepper': '/dr-pepper.png'
+        };
+
+        return brandImages[brandName] || '/default.png';
+    };
+
     if (items.length === 0) {
         return (
-            <div className="cart-container">
-                <h1>Корзина</h1>
+            <div className="cart-page-container">
+                <h1 className="cart-title">Оформление заказа</h1>
                 <div className="empty-cart">
                     <p>У вас нет ни одного товара, вернитесь на страницу каталога</p>
-                    <button onClick={() => navigate('/')}>Вернуться в каталог</button>
+                    <button
+                        className="catalog-btn"
+                        onClick={() => navigate('/')}
+                    >
+                        Вернуться в каталог
+                    </button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="cart-container">
-            <h1>Корзина</h1>
+        <div className="cart-page-container">
+            <h1 className="cart-title">Оформление заказа</h1>
 
             {error && <div className="error-message">{error}</div>}
 
-            <div className="cart-items">
+            <div className="cart-items-container">
+                <div className="cart-items-header">
+                    <span className="header-product">Товар</span>
+                    <span className="header-quantity">Количество</span>
+                    <span className="header-price">Цена</span>
+                    <span></span>
+                </div>
+
                 {items.map((item: CartItem) => (
                     <div key={item.id} className="cart-item">
                         <div className="item-info">
-                            <h3>{item.name}</h3>
-                            <p className="brand">Бренд: {item.brand.name}</p>
-                            <p className="price">Цена: {item.price} руб.</p>
+                            <div className="item-image">
+                                <img
+                                    src={getBrandImage(item.brand.name)}
+                                    alt={item.brand.name}
+                                    className="brand-image"
+                                />
+                            </div>
+                            <h3 className="product-name">Напиток газированный {item.name}</h3>
                         </div>
 
-                        <div className="quantity-controls">
+                        <div className="quantitys-controls">
                             <button
                                 onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                                 disabled={item.quantity <= 1}
+                                className="quantity-btn minus"
                             >
                                 -
                             </button>
@@ -89,45 +116,50 @@ const Cart: React.FC = () => {
                                 value={item.quantity}
                                 onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 1)}
                                 min="1"
-                                max={item.quantity}
+                                className="quantity-input"
                             />
                             <button
                                 onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                disabled={item.quantity >= item.quantity}
+                                className="quantity-btn plus"
                             >
                                 +
                             </button>
                         </div>
 
-                        <div className="item-total">
-                            <p>Итого: {item.price * item.quantity} руб.</p>
+                        <div className="item-price">
+                            <p>{item.price * item.quantity} руб.</p>
                         </div>
 
                         <button
-                            className="remove-btn"
+                            className="removes-btn"
                             onClick={() => dispatch(removeFromCart(item.id))}
+                            aria-label="Удалить товар"
                         >
-                            Удалить
+                            🗑️
                         </button>
                     </div>
                 ))}
             </div>
 
             <div className="cart-summary">
-                <h2>Общая сумма: {totalAmount} руб.</h2>
-                <div className="cart-actions">
+                <div className="total-amount">
+                    <span>Итоговая сумма</span>
+                    <span>{totalAmount} руб.</span>
+                </div>
+
+                <div className="carts-actions">
+                    <button
+                        onClick={() => navigate('/')}
+                        className="backs-btn"
+                    >
+                        Вернуться
+                    </button>
                     <button
                         onClick={handleCheckout}
                         disabled={isCheckingOut}
                         className="checkout-btn"
                     >
-                        {isCheckingOut ? 'Обработка...' : 'Перейти к оплате'}
-                    </button>
-                    <button
-                        onClick={() => navigate('/')}
-                        className="back-btn"
-                    >
-                        Вернуться в каталог
+                        {isCheckingOut ? 'Обработка...' : 'Оплата'}
                     </button>
                 </div>
             </div>

@@ -1,0 +1,367 @@
+﻿/* Payment.css - обновленные стили для страницы оплаты */
+
+.payment-page-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.payment-title {
+    color: #333;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Таблица монет */
+.coins-table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px 0;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.coin-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+    .coin-row:last-child {
+        border-bottom: none;
+    }
+
+.coin-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-left: 25%;
+}
+
+.coin-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.coin-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Управление количеством монет */
+.coin-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.coin-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: #444;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+    .coin-btn:hover:not(:disabled) {
+        background-color: #666;
+    }
+
+    .coin-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+.coin-input {
+    width: 50px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.coin-amount {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Сводка оплаты */
+.payment-summary {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.paid-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.paid-enough {
+    color: #27ae60;
+}
+
+.paid-not-enough {
+    color: #e74c3c;
+}
+
+/* Кнопки действий */
+.payments-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.backs-btn {
+    background-color: #f2c94c;
+    color: #2b2b2b;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+    .backs-btn:hover {
+        background-color: #e6b800;
+    }
+
+.pay-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+    .pay-btn:hover:not(:disabled) {
+        background-color: #219653;
+    }
+
+    .pay-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+/* Сообщение об ошибке */
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+    text-align: center;
+}
+
+/* Успешная оплата */
+.payments-success {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+.success-message {
+    font-size: 18px;
+    font-weight: 600;
+    color: #27ae60;
+    margin-bottom: 20px;
+}
+
+.change-info {
+    margin-bottom: 20px;
+}
+
+    .change-info h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+.change-coins {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.change-coin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    min-width: 80px;
+}
+
+.back-to-catalog-btn {
+    background-color: #f2c94c;
+    color: #2b2b2b;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+    .back-to-catalog-btn:hover {
+        background-color: #e6b800;
+    }
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .coin-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .coin-info {
+        justify-content: center;
+    }
+
+    .payment-actions {
+        flex-direction: column;
+    }
+
+    .back-btn,
+    .pay-btn {
+        width: 100%;
+    }
+}
+/* Стили для успешной оплаты */
+.payments-success {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+.success-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.change-message {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.coins-title {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.change-coins-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.change-coin-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 150px;
+    justify-content: space-between;
+}
+
+.coin-number {
+    font-size: 14px;
+    color: #333;
+    min-width: 20px;
+}
+
+.change-coin-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.coin-count {
+    font-size: 14px;
+    color: #333;
+    min-width: 50px;
+    text-align: left;
+}
+
+.backs-to-catalog-btn {
+    background-color: #f2c94c;
+    color: #2b2b2b;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+    .back-to-catalog-btn:hover {
+        background-color: #e6b800;
+    }

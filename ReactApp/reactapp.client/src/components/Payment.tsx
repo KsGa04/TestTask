@@ -5,6 +5,7 @@ import { updateCoinCount, processPayment, resetPayment } from '../store/slices/p
 import { clearCart } from '../store/slices/cartSlice';
 import { RootState, AppDispatch } from '../store/store';
 import { CartItem } from '../types';
+import './Payment.css';
 
 const Payment: React.FC = () => {
     const { orderId } = useParams<{ orderId: string }>();
@@ -22,6 +23,11 @@ const Payment: React.FC = () => {
 
     const remainingAmount = totalAmount - paidAmount;
     const isPaid = remainingAmount <= 0;
+
+    useEffect(() => {
+        // Сбрасываем состояние платежа только при монтировании компонента
+        dispatch(resetPayment());
+    }, [dispatch, orderId]); // Добавлен dispatch в зависимости
 
     useEffect(() => {
         setLocalCoins(coins);
@@ -56,28 +62,44 @@ const Payment: React.FC = () => {
         navigate('/');
     };
 
+    // Вычисляем общую сумму сдачи
+    const changeAmount = change ? Object.entries(change).reduce((total, [value, count]) =>
+        total + (parseInt(value) * count), 0) : 0;
+
     if (status === 'succeeded') {
+        // Получаем монеты с ненулевым количеством и сортируем по номиналу
+        const changeEntries = change ? Object.entries(change)
+            .filter(([_, count]) => count > 0)
+            .sort(([a], [b]) => parseInt(a) - parseInt(b)) : [];
+
         return (
-            <div className="payment-container">
-                <h1>Оплата</h1>
-                <div className="payment-success">
-                    <p className="success-message">{message}</p>
-                    {change && Object.keys(change).length > 0 && (
+            <div className="payment-page-container">
+                <h1 className="payment-title">Оплата</h1>
+                <div className="payments-success">
+                    <p className="success-title">Спасибо за покупку!</p>
+                    <p className="change-message">Пожалуйста, возьмите вашу сдачу: {changeAmount} руб.</p>
+
+                    {changeEntries.length > 0 && (
                         <div className="change-info">
-                            <h3>Ваша сдача:</h3>
-                            <div className="change-coins">
-                                {Object.entries(change).map(([value, count]) => (
-                                    <div key={value} className="change-coin">
-                                        <span className="coin-value">{value} руб.</span>
-                                        <span className="coin-count">× {count}</span>
+                            <p className="coins-title">Ваши монеты:</p>
+                            <div className="change-coins-list">
+                                {changeEntries.map(([value, count], index) => (
+                                    <div key={value} className="change-coin-item">
+                                        <img
+                                            src={`/${value}rub.png`}
+                                            alt={`Монета ${value} руб.`}
+                                            className="change-coin-image"
+                                        />
+                                        <span className="coin-count">{count} шт.</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     )}
+
                     <button
                         onClick={handleBackToCatalog}
-                        className="back-to-catalog-btn"
+                        className="backs-to-catalog-btn"
                     >
                         Каталог напитков
                     </button>
@@ -87,43 +109,68 @@ const Payment: React.FC = () => {
     }
 
     return (
-        <div className="payment-container">
-            <h1>Оплата</h1>
+        <div className="payment-page-container">
+            <h1 className="payment-title">Оплата</h1>
 
-            <div className="payment-info">
-                <h2>Общая сумма: {totalAmount} руб.</h2>
-                <h3 className={isPaid ? 'paid-enough' : 'paid-not-enough'}>
-                    Внесено: {paidAmount} руб.
-                    {!isPaid && ` (Осталось внести: ${remainingAmount} руб.)`}
-                </h3>
+            <div className="coins-table">
+                <div className="table-header">
+                    <span>Номинал</span>
+                    <span>Количество</span>
+                    <span>Сумма</span>
+                </div>
+
+                {localCoins.map(coin => {
+                    const coinAmount = coin.value * coin.count;
+                    return (
+                        <div key={coin.value} className="coin-row">
+                            <div className="coin-info">
+                                <img
+                                    src={`/${coin.value}rub.png`}
+                                    alt={`Монета ${coin.value} руб.`}
+                                    className="coin-image"
+                                />
+                                <span className="coin-value">{coin.value} руб.</span>
+                            </div>
+                            <div className="coin-controls">
+                                <button
+                                    onClick={() => handleCoinChange(coin.value, coin.count - 1)}
+                                    disabled={coin.count <= 0}
+                                    className="coin-btn minus"
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    value={coin.count}
+                                    onChange={(e) => handleCoinChange(coin.value, parseInt(e.target.value) || 0)}
+                                    min="0"
+                                    className="coin-input"
+                                />
+                                <button
+                                    onClick={() => handleCoinChange(coin.value, coin.count + 1)}
+                                    className="coin-btn plus"
+                                >
+                                    +
+                                </button>
+                            </div>
+                            <div className="coin-amount">
+                                {coinAmount} руб.
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
-            <div className="coin-inputs">
-                <h3>Внесите монеты:</h3>
-                {localCoins.map(coin => (
-                    <div key={coin.value} className="coin-input">
-                        <span className="coin-label">Монета {coin.value} руб.:</span>
-                        <div className="coin-controls">
-                            <button
-                                onClick={() => handleCoinChange(coin.value, coin.count - 1)}
-                                disabled={coin.count <= 0}
-                            >
-                                -
-                            </button>
-                            <input
-                                type="number"
-                                value={coin.count}
-                                onChange={(e) => handleCoinChange(coin.value, parseInt(e.target.value) || 0)}
-                                min="0"
-                            />
-                            <button
-                                onClick={() => handleCoinChange(coin.value, coin.count + 1)}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                ))}
+            <div className="payment-summary">
+                <div className="total-amount">
+                    <span>Итоговая сумма</span>
+                    <span>{totalAmount} руб.</span>
+                </div>
+
+                <div className={`paid-amount ${isPaid ? 'paid-enough' : 'paid-not-enough'}`}>
+                    <span>Вы внесли</span>
+                    <span>{paidAmount} руб.</span>
+                </div>
             </div>
 
             {error && (
@@ -132,10 +179,10 @@ const Payment: React.FC = () => {
                 </div>
             )}
 
-            <div className="payment-actions">
+            <div className="payments-actions">
                 <button
                     onClick={() => navigate('/cart')}
-                    className="back-btn"
+                    className="backs-btn"
                 >
                     Вернуться
                 </button>
