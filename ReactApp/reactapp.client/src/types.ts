@@ -60,12 +60,11 @@ export interface ProductsState {
         maxPrice: number;
     };
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    importStatus: 'idle' | 'loading' | 'succeeded' | 'failed'; // Добавлено
+    importStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
-    message: string | null; // Добавлено
+    message: string | null;
 }
 
-// Добавьте это если нет
 export interface ImportResponse {
     message: string;
     count: number;

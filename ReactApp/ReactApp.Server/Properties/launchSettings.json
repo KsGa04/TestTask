@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -42,23 +42,3 @@
     }
   }
 }
-//{
-//  "profiles": {
-//    "ReactApp.Server": {
-//      "commandName": "Project",
-//      "dotnetRunMessages": true,
-//      "launchBrowser": true,
-//      "applicationUrl": "http://localhost:5006",
-//      "environmentVariables": {
-//        "ASPNETCORE_ENVIRONMENT": "Development"
-//      }
-//    },
-//    "IIS Express": {
-//      "commandName": "IISExpress",
-//      "launchBrowser": true,
-//      "environmentVariables": {
-//        "ASPNETCORE_ENVIRONMENT": "Development"
-//      }
-//    }
-//  }
-//}

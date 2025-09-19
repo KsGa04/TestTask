@@ -8,7 +8,6 @@ using ReactApp.Server.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -25,7 +24,6 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IVendingMachineService, VendingMachineService>();
 builder.Services.AddSingleton<ILockService, LockService>();
 
-// Добавьте это перед builder.Build()
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -37,7 +35,6 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Добавьте CORS поддержку
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
@@ -57,10 +54,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-//app.UseHttpsRedirection();
-
-// Важно: правильный порядок middleware
 app.UseCors("AllowReactApp");
 
 app.UseStaticFiles();
@@ -70,7 +63,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Для SPA приложения: перенаправляем все запросы на index.html
 app.MapFallbackToFile("index.html");
 
 app.Run();

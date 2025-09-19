@@ -43,7 +43,6 @@ namespace ReactApp.Server.Controllers
                 if (file == null || file.Length == 0)
                     return BadRequest("Файл не выбран");
 
-                // Проверяем расширение файла
                 var extension = System.IO.Path.GetExtension(file.FileName).ToLower();
                 if (extension != ".xlsx" && extension != ".xls")
                     return BadRequest("Неверный формат файла. Поддерживаются только файлы Excel (.xlsx, .xls)");
@@ -55,12 +54,10 @@ namespace ReactApp.Server.Controllers
             }
             catch (InvalidOperationException ex)
             {
-                // Возвращаем детализированную ошибку валидации
                 return BadRequest(new { message = "Ошибки при импорте", details = ex.Message });
             }
             catch (Exception ex)
             {
-                // Логируем ошибку для отладки
                 Console.WriteLine($"Ошибка при импорте: {ex.Message}");
                 Console.WriteLine($"StackTrace: {ex.StackTrace}");
 

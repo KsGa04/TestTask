@@ -10,13 +10,10 @@ const api = axios.create({
         'Content-Type': 'application/json; charset=utf-8'
     }
 });
-// Добавляем перехватчик для обработки ошибки 423
-// Добавляем перехватчик для обработки ошибки 423
 api.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 423) {
-            // Перенаправляем на страницу занятости
             window.location.href = "/busy";
             throw new Error("Извините, в данный момент автомат занят");
         }
@@ -55,12 +52,9 @@ export const apiService = {
                 'Content-Type': 'multipart/form-data',
             },
         }).catch(error => {
-            // Проверяем, есть ли response в ошибке
             if (error.response) {
-                // Если сервер вернул ошибку, пробрасываем её дальше
                 return Promise.reject(error);
             } else {
-                // Если ошибка сети или другая ошибка
                 return Promise.reject(new Error('Network error or other error'));
             }
         });

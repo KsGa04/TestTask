@@ -5,7 +5,7 @@ import { store } from './store/store';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import Payment from './components/Payment';
-import BusyPage from './components/BusyPage'; // Добавляем новый компонент
+import BusyPage from './components/BusyPage';
 
 
 const App: React.FC = () => {
@@ -16,14 +16,10 @@ const App: React.FC = () => {
                     <Route path="/" element={<ProductList />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/payment/:orderId" element={<Payment />} />
-                    <Route path="/busy" element={<BusyPage />} /> {/* Добавляем маршрут */}
+                    <Route path="/busy" element={<BusyPage />} /> { }
                 </Routes>
             </Router>
         </Provider>
-        //<div>
-        //    <RussianTest />
-        //    {/* Остальные компоненты вашего приложения */}
-        //</div>
     );
 };
 

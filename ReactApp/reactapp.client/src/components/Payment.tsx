@@ -62,12 +62,10 @@ const Payment: React.FC = () => {
         navigate('/');
     };
 
-    // Вычисляем общую сумму сдачи
     const changeAmount = change ? Object.entries(change).reduce((total, [value, count]) =>
         total + (parseInt(value) * count), 0) : 0;
 
     if (status === 'succeeded') {
-        // Получаем монеты с ненулевым количеством и сортируем по номиналу
         const changeEntries = change ? Object.entries(change)
             .filter(([_, count]) => count > 0)
             .sort(([a], [b]) => parseInt(a) - parseInt(b)) : [];

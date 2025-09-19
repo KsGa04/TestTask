@@ -69,7 +69,6 @@ const productsSlice = createSlice({
                 state.status = 'succeeded';
                 state.items = action.payload;
 
-                // Исправление ошибки TypeScript
                 const brandNames = action.payload.map((item: Product) => item.brand.name);
                 const uniqueBrandsSet = new Set(brandNames);
                 const uniqueBrands = Array.from(uniqueBrandsSet) as string[];
@@ -86,7 +85,7 @@ const productsSlice = createSlice({
             })
             .addCase(importProducts.fulfilled, (state, action) => {
                 state.importStatus = 'succeeded';
-                state.message = action.payload.message; // action.payload.message - это строка
+                state.message = action.payload.message; 
             })
             .addCase(importProducts.rejected, (state, action) => {
                 state.importStatus = 'failed';
@@ -96,10 +95,8 @@ const productsSlice = createSlice({
                 if (typeof payload === 'string') {
                     errorMessage = payload;
                 } else if (payload && typeof payload === 'object') {
-                    // Проверяем, есть ли в объекте поле 'message'
                     if ('message' in payload) {
                         errorMessage = (payload as any).message;
-                        // Если есть детали, добавим их
                         if ('details' in payload) {
                             errorMessage += `: ${(payload as any).details}`;
                         }

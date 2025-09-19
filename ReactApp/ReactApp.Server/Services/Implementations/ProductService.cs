@@ -17,8 +17,6 @@ namespace ReactApp.Server.Services.Implementations
 
         public async Task BulkInsertProducts(List<Product> products)
         {
-            // Удаляем существующие продукты перед импортом
-            // Или добавляем логику обновления/добавления
             await _productRepository.BulkInsertProducts(products);
         }
 

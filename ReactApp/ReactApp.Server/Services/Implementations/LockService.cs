@@ -130,7 +130,6 @@ namespace ReactApp.Server.Services.Implementations
             }
         }
 
-        // Новый метод для получения полной информации о блокировке
         public LockInfo GetLockInfo()
         {
             lock (_lock)

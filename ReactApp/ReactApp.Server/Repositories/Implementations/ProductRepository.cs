@@ -62,7 +62,6 @@ namespace ReactApp.Server.Repositories.Implementations
             }
             catch (DbUpdateException ex)
             {
-                // Логируем ошибку для отладки
                 Console.WriteLine($"Ошибка при сохранении: {ex.InnerException?.Message}");
                 throw;
             }

@@ -1,102 +1,23 @@
-//import { fileURLToPath, URL } from 'node:url';
-
-//import { defineConfig } from 'vite';
-//import plugin from '@vitejs/plugin-react';
-//import fs from 'fs';
-//import path from 'path';
-//import child_process from 'child_process';
-//import { env } from 'process';
-
-//const baseFolder =
-//    env.APPDATA !== undefined && env.APPDATA !== ''
-//        ? `${env.APPDATA}/ASP.NET/https`
-//        : `${env.HOME}/.aspnet/https`;
-
-//const certificateName = "reactapp.client";
-//const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
-//const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
-
-//if (!fs.existsSync(baseFolder)) {
-//    fs.mkdirSync(baseFolder, { recursive: true });
-//}
-
-//if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-//    if (0 !== child_process.spawnSync('dotnet', [
-//        'dev-certs',
-//        'https',
-//        '--export-path',
-//        certFilePath,
-//        '--format',
-//        'Pem',
-//        '--no-password',
-//    ], { stdio: 'inherit', }).status) {
-//        throw new Error("Could not create certificate.");
-//    }
-//}
-
-//const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-//    env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7079';
-
-//// https://vitejs.dev/config/
-//export default defineConfig({
-//    plugins: [plugin()],
-//    resolve: {
-//        alias: {
-//            '@': fileURLToPath(new URL('./src', import.meta.url))
-//        }
-//    },
-//    server: {
-//        proxy: {
-//            '^/weatherforecast': {
-//                target,
-//                secure: false
-//            }
-//        },
-//        port: parseInt(env.DEV_SERVER_PORT || '59546'),
-//        https: {
-//            key: fs.readFileSync(keyFilePath),
-//            cert: fs.readFileSync(certFilePath),
-//        }
-//    }
-//})
-//import { defineConfig } from 'vite'
-//import react from '@vitejs/plugin-react'
-
-//export default defineConfig({
-//    plugins: [react()],
-//    server: {
-//        port: 3000,
-//        strictPort: true,
-//        proxy: {
-//            '/api': {
-//                target: 'http://localhost:5006', // Используйте HTTP вместо HTTPS
-//                changeOrigin: true,
-//                secure: false,
-//                rewrite: (path) => path.replace(/^\/api/, '/api')
-//            }
-//        }
-//    }
-//})
-import { defineConfig } from 'vite'
+п»їimport { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
 export default defineConfig({
     plugins: [react()],
 
-    // Базовый путь для публикации
+    // Р‘Р°Р·РѕРІС‹Р№ РїСѓС‚СЊ РґР»СЏ РїСѓР±Р»РёРєР°С†РёРё
     base: './',
 
     server: {
-        // Порт для разработки
+        // РџРѕСЂС‚ РґР»СЏ СЂР°Р·СЂР°Р±РѕС‚РєРё
         port: 3000,
-        // Строго использовать указанный порт
+        // РЎС‚СЂРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СѓРєР°Р·Р°РЅРЅС‹Р№ РїРѕСЂС‚
         strictPort: true,
 
-        // Автоматически открывать браузер
+        // РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РѕС‚РєСЂС‹РІР°С‚СЊ Р±СЂР°СѓР·РµСЂ
         open: true,
 
-        // Настройка прокси для API запросов
+        // РќР°СЃС‚СЂРѕР№РєР° РїСЂРѕРєСЃРё РґР»СЏ API Р·Р°РїСЂРѕСЃРѕРІ
         proxy: {
             '/api': {
                 target: 'http://localhost:5006',
@@ -106,47 +27,47 @@ export default defineConfig({
             }
         },
 
-        // Настройки CORS для разработки
+        // РќР°СЃС‚СЂРѕР№РєРё CORS РґР»СЏ СЂР°Р·СЂР°Р±РѕС‚РєРё
         cors: true,
 
-        // Явно задаем хост для доступа с других устройств
+        // РЇРІРЅРѕ Р·Р°РґР°РµРј С…РѕСЃС‚ РґР»СЏ РґРѕСЃС‚СѓРїР° СЃ РґСЂСѓРіРёС… СѓСЃС‚СЂРѕР№СЃС‚РІ
         host: true
     },
 
-    // Настройки сборки
+    // РќР°СЃС‚СЂРѕР№РєРё СЃР±РѕСЂРєРё
     build: {
-        // Целевая версия ES
+        // Р¦РµР»РµРІР°СЏ РІРµСЂСЃРёСЏ ES
         target: 'esnext',
 
-        // Исходные карты для отладки
+        // РСЃС…РѕРґРЅС‹Рµ РєР°СЂС‚С‹ РґР»СЏ РѕС‚Р»Р°РґРєРё
         sourcemap: true,
 
-        // Минификация кода
+        // РњРёРЅРёС„РёРєР°С†РёСЏ РєРѕРґР°
         minify: false,
 
-        // Настройки chunk'ов
+        // РќР°СЃС‚СЂРѕР№РєРё chunk'РѕРІ
         rollupOptions: {
             output: {
                 manualChunks: {
-                    // Разделение кода на чанки
+                    // Р Р°Р·РґРµР»РµРЅРёРµ РєРѕРґР° РЅР° С‡Р°РЅРєРё
                     vendor: ['react', 'react-dom'],
-                    redux: ['@reduxjs/toolkit', 'react-redux'], // Исправлена опечатка: @reduxjs/toolkit
+                    redux: ['@reduxjs/toolkit', 'react-redux'], // РСЃРїСЂР°РІР»РµРЅР° РѕРїРµС‡Р°С‚РєР°: @reduxjs/toolkit
                 },
-                // Убедимся, что имена файлов содержат только ASCII символы
+                // РЈР±РµРґРёРјСЃСЏ, С‡С‚Рѕ РёРјРµРЅР° С„Р°Р№Р»РѕРІ СЃРѕРґРµСЂР¶Р°С‚ С‚РѕР»СЊРєРѕ ASCII СЃРёРјРІРѕР»С‹
                 chunkFileNames: 'assets/js/[name]-[hash].js',
                 entryFileNames: 'assets/js/[name]-[hash].js',
                 assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
             }
         },
 
-        // Настройки размера чанков
+        // РќР°СЃС‚СЂРѕР№РєРё СЂР°Р·РјРµСЂР° С‡Р°РЅРєРѕРІ
         chunkSizeWarningLimit: 1000,
     },
 
-    // Настройки разрешений модулей
+    // РќР°СЃС‚СЂРѕР№РєРё СЂР°Р·СЂРµС€РµРЅРёР№ РјРѕРґСѓР»РµР№
     resolve: {
         alias: {
-            // Псевдонимы для путей
+            // РџСЃРµРІРґРѕРЅРёРјС‹ РґР»СЏ РїСѓС‚РµР№
             '@': resolve(__dirname, 'src'),
             '@components': resolve(__dirname, 'src/components'),
             '@store': resolve(__dirname, 'src/store'),
@@ -156,26 +77,26 @@ export default defineConfig({
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
     },
 
-    // Настройки CSS
+    // РќР°СЃС‚СЂРѕР№РєРё CSS
     css: {
-        // Настройки для CSS модулей
+        // РќР°СЃС‚СЂРѕР№РєРё РґР»СЏ CSS РјРѕРґСѓР»РµР№
         modules: {
             localsConvention: 'camelCase'
         },
 
-        // PostCSS конфигурация (если нужно)
+        // PostCSS РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ (РµСЃР»Рё РЅСѓР¶РЅРѕ)
         postcss: {
             plugins: []
         }
     },
 
-    // Настройки предпросмотра
+    // РќР°СЃС‚СЂРѕР№РєРё РїСЂРµРґРїСЂРѕСЃРјРѕС‚СЂР°
     preview: {
         port: 3000,
         strictPort: true,
     },
 
-    // Оптимизации для продакшена
+    // РћРїС‚РёРјРёР·Р°С†РёРё РґР»СЏ РїСЂРѕРґР°РєС€РµРЅР°
     optimizeDeps: {
         include: ['react', 'react-dom', 'react-router-dom']
     }

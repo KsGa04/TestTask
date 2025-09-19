@@ -20,8 +20,7 @@ public partial class OrderItem
 
     public int Quantity { get; set; }
 
-    // Добавьте это вычисляемое свойство
-    [NotMapped] // Указывает, что это свойство не должно быть отображено в базе данных
+    [NotMapped]
     public decimal TotalPrice => UnitPrice * Quantity;
 
     public virtual Order Order { get; set; } = null!;

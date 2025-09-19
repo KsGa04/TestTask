@@ -34,7 +34,6 @@ const ProductList: React.FC = () => {
 
     useEffect(() => {
         if (importStatus === 'succeeded' || importStatus === 'failed') {
-            // message теперь всегда строка
             setLocalImportMessage(message || '');
 
             const timer = setTimeout(() => {
@@ -88,7 +87,6 @@ const ProductList: React.FC = () => {
     };
 
     const downloadTemplate = () => {
-        // Создаем данные для шаблона
         const data = [
             ["Название товара", "Цена", "Количество", "ID бренда"],
             ["Coca-Cola 0.5л", 80, 10, 1],
@@ -98,12 +96,10 @@ const ProductList: React.FC = () => {
             ["Dr. Pepper 0.5л", 85, 8, 5]
         ];
 
-        // Создаем книгу и лист
         const ws = XLSX.utils.aoa_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Товары");
 
-        // Устанавливаем ширину столбцов для лучшего отображения
         const colWidths = [
             { wch: 20 }, // Название товара
             { wch: 10 }, // Цена
@@ -112,7 +108,6 @@ const ProductList: React.FC = () => {
         ];
         ws['!cols'] = colWidths;
 
-        // Генерируем файл
         XLSX.writeFile(wb, "шаблон_импорта_товаров.xlsx");
     };
 

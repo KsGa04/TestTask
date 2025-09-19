@@ -35,7 +35,6 @@ namespace ReactApp.Server.Services.Implementations
 
                 IWorkbook workbook;
 
-                // Определяем формат файла
                 if (file.FileName.EndsWith(".xlsx"))
                 {
                     workbook = new XSSFWorkbook(stream);
@@ -52,17 +51,13 @@ namespace ReactApp.Server.Services.Implementations
                 var sheet = workbook.GetSheetAt(0);
                 var rowCount = sheet.LastRowNum;
 
-                // Получаем все существующие бренды для проверки
                 var existingBrands = await _context.Brands.ToListAsync();
                 var existingBrandIds = new HashSet<int>(existingBrands.Select(b => b.Id));
-
-                // Пропускаем заголовок (первую строку)
                 for (int row = 1; row <= rowCount; row++)
                 {
                     var currentRow = sheet.GetRow(row);
                     if (currentRow == null) continue;
 
-                    // Парсим BrandId
                     var brandIdValue = GetCellValue(currentRow.GetCell(3));
                     if (!int.TryParse(brandIdValue, out int brandId) || brandId <= 0)
                     {
@@ -70,14 +65,12 @@ namespace ReactApp.Server.Services.Implementations
                         continue;
                     }
 
-                    // Проверяем существование бренда
                     if (!existingBrandIds.Contains(brandId))
                     {
                         errors.Add($"Строка {row}: бренд с ID {brandId} не существует");
                         continue;
                     }
 
-                    // Парсим цену и количество
                     var priceValue = GetCellValue(currentRow.GetCell(1));
                     var quantityValue = GetCellValue(currentRow.GetCell(2));
 
@@ -112,7 +105,6 @@ namespace ReactApp.Server.Services.Implementations
                 }
             }
 
-            // Если есть ошибки, выбрасываем исключение с их списком
             if (errors.Count > 0)
             {
                 throw new InvalidOperationException($"Ошибки при импорте:\n{string.Join("\n", errors)}");

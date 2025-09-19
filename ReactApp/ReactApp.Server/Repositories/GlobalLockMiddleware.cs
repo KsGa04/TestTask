@@ -16,7 +16,6 @@ namespace ReactApp.Server.Middleware
 
         public async Task InvokeAsync(HttpContext context, ILockService lockService)
         {
-            // Получаем строковое представление пути
             var path = context.Request.Path.Value ?? "";
             var method = context.Request.Method;
 
@@ -41,11 +40,9 @@ namespace ReactApp.Server.Middleware
                 return;
             }
 
-            // Получаем идентификатор сессии из cookie
             var sessionId = context.Request.Cookies["SessionId"];
             Console.WriteLine($"Запрос от сессии: {sessionId}, путь: {path}, метод: {method}");
 
-            // Если cookie нет, создаем новый идентификатор
             if (string.IsNullOrEmpty(sessionId))
             {
                 sessionId = Guid.NewGuid().ToString();
@@ -63,12 +60,8 @@ namespace ReactApp.Server.Middleware
 
             Console.WriteLine($"Блокировка: {lockInfo.IsLocked}, текущий владелец: {lockInfo.CurrentHolder}, запрос от: {sessionId}");
 
-            // Блокируем доступ только если автомат занят другим пользователем
-            // И это не GET-запрос для получения данных
             if (lockInfo.IsLocked && lockInfo.CurrentHolder != sessionId)
             {
-                // Разрешаем GET-запросы для получения данных (просмотр товаров)
-                // но блокируем модифицирующие операции
                 bool isReadOnlyRequest = method.Equals("GET", StringComparison.OrdinalIgnoreCase) &&
                                         !path.StartsWith("/api/orders", StringComparison.OrdinalIgnoreCase) &&
                                         !path.StartsWith("/api/payment", StringComparison.OrdinalIgnoreCase) &&
@@ -87,7 +80,6 @@ namespace ReactApp.Server.Middleware
                         return;
                     }
 
-                    // Для остальных запросов перенаправляем на страницу занятости
                     context.Response.Redirect("/busy");
                     return;
                 }
