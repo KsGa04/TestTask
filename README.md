@@ -39,6 +39,7 @@
 *   **Сборка:** Vite
 
 ## Структура проекта
+```text
 TestTask/ (Корень решения)
 ├── ReactApp.Client/ (Фронтенд - проект Vite)
 │ ├── public/ (Статические файлы)
@@ -110,7 +111,7 @@ TestTask/ (Корень решения)
 ├── appsettings.json
 ├── Program.cs
 └── ReactApp.Server.http (Файл для тестирования API)
-
+```
 
 ## Функциональность
 
